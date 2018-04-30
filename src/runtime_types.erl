@@ -106,7 +106,7 @@ typename({A, _, _}) when is_atom(A) ->
     A.
 
 debug(DbgMsg, Args) ->
-    {ok, Fd} = file:open("aeon.log"), [append]),
+    {ok, Fd} = file:open("aeon.log", [append]),
     io:format(Fd, DbgMsg, Args),
     file:close(Fd).
     
