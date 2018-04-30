@@ -7,7 +7,7 @@
 
 -define(FUN_NAME, '#types').
 
--define(dbg(DbgMsg, Args), io:format(DbgMsg, Args)).
+-define(dbg(DbgMsg, Args), error_logger:info_msg(DbgMsg, Args)).
 %%-define(dbg(DbgMsg, Args), noop).
 
 parse_transform(Forms, Options) ->
