@@ -7,8 +7,8 @@
 
 -define(FUN_NAME, '#types').
 
-%%-define(dbg(DbgMsg, Args), io:format(DbgMsg, Args)).
--define(dbg(DbgMsg, Args), noop).
+-define(dbg(DbgMsg, Args), lager:info(DbgMsg, Args)).
+%%-define(dbg(DbgMsg, Args), noop).
 
 parse_transform(Forms, Options) ->
     parse_trans:top(fun do_transform/2, Forms, Options).
