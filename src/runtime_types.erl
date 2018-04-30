@@ -7,7 +7,7 @@
 
 -define(FUN_NAME, '#types').
 
--define(dbg(DbgMsg, Args), lager:info(DbgMsg, Args)).
+-define(dbg(DbgMsg, Args), debug(DbgMsg, Args)).
 %%-define(dbg(DbgMsg, Args), noop).
 
 parse_transform(Forms, Options) ->
@@ -104,3 +104,9 @@ typename({ann_type, _, [{var, _, _}, T]}) ->
     typename(T);
 typename({A, _, _}) when is_atom(A) ->
     A.
+
+debug(DbgMsg, Args) ->
+    {ok, Fd} = file:open("aeon.log"), [append]),
+    io:format(Fd, DbgMsg, Args),
+    file:close(Fd).
+    
