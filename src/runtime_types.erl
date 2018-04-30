@@ -75,6 +75,8 @@ field_info({FieldName, {none, {_, _, _} = Type}}) ->
     {FieldName, typename(Type)};
 field_info({FieldName, {{record, _, _, _}, Type}}) ->
     {FieldName, typename(Type)};
+field_info({FieldName, {{call, _, _, _}, Type}}) ->
+    {FieldName, typename(Type)};
 field_info({FieldName, {{_, _, _}, Type}}) ->
     {FieldName, typename(Type)}.
 
@@ -106,7 +108,7 @@ typename({A, _, _}) when is_atom(A) ->
     A.
 
 debug(DbgMsg, Args) ->
-    {ok, Fd} = file:open("aeon.log"), [append]),
+    {ok, Fd} = file:open("aeon.log", [append]),
     io:format(Fd, DbgMsg, Args),
     file:close(Fd).
     
