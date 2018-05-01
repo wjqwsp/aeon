@@ -39,6 +39,8 @@ converted_value(Val, {type, Intrinsic}, _Module) when
 	Val;
 converted_value(Val, {type, string}, _Module) when is_list(Val) ->
 	unicode:characters_to_binary(Val, utf8, utf8);
+converted_value(undefined, {type, string}, _Module) ->
+	undefined;
 converted_value(Val, {type, T}, Module) when is_atom(T) ->
 	type_to_jsx(Val, Module, T);
 converted_value(Val, {type, {aeon, json_terms}}, _Module) ->
@@ -50,8 +52,10 @@ converted_value(Val, {type, {TMod, T, _Params}}, _Module) when is_atom(TMod), is
 	type_to_jsx(Val, TMod, T); % is this the right way to handle parameterized types?
 converted_value(Val, {tuple, TTypes}, Module) when is_tuple(Val), size(Val) =:= length(TTypes) ->
 	[converted_value(V,T,Module) || {V,T} <- lists:zip(tuple_to_list(Val), TTypes)];
-converted_value(Val, {list, Ltype}, Module) when is_list(Val) ->
+converted_value(Val, {list, Ltype}, Module)  when is_list(Val)->
 	[converted_value(V,Ltype,Module) || V <- Val];
+converted_value(undefined, {list, _Ltype}, _Module) ->
+	undefined;
 converted_value(Val, {union, Utypes}, Module) ->
 	Convert = fun(T) -> converted_value(Val, T, Module) end,
 	aeon_common:first_no_fail(Convert, Utypes);
